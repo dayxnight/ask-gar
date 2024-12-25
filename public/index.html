@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>askGar</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <h1>askGar nanya doang!</h1>
+        <form id="qna-form">
+            <textarea
+                id="question"
+                placeholder="Masukkan pertanyaan Anda"
+                required
+            ></textarea>
+            <button type="submit">Kirim</button>
+        </form>
+        <script>
+            const form = document.getElementById("qna-form");
+
+            form.addEventListener("submit", async event => {
+                event.preventDefault();
+                const question = document
+                    .getElementById("question")
+                    .value.trim();
+
+                if (!question) {
+                    alert("Pertanyaan harus diisi! (-_-)");
+                    return;
+                }
+
+                await fetch("/api/messages", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ question })
+                });
+
+                alert("Pertanyaan berhasil dikirim! (^∆^)");
+                form.reset();
+            });
+        </script>
+    </body>
+</html>
